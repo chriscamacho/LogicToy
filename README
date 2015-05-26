@@ -1,0 +1,18 @@
+Logic Toy
+=========
+
+A grid based logic toy
+
+Initially made as a prototype for a small aspect of a game design.
+
+Each cell of a grid can have its own logic function, each side of a tile
+(North, East, South and West) can be blank or be either an input or output
+
+Left clicking allows editing a tile.
+
+Right clicking toggles the state of and input tile.
+
+After editing or adding a tile, the circuit may be in an invalid state,
+resetting the state fires state change events on all grid inputs allowing
+the logic circuit to be reevaluated.
+
