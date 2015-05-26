@@ -16,7 +16,7 @@ public class Tile extends Group {
 	public boolean outState; // all outputs are always the same!
 	
 	protected static Image Iinwire,Ioutwire,Iand,Iinout,Icross;
-	protected static Image Inot,Ior,Ion,Iinvalid,Ibg,Ievent;
+	protected static Image Inot,Ior,Ion,Iinvalid,Ibg,Ievent,Ixor;
 	
 	private ImageView VinN, VinE, VinS, VinW;
 	private ImageView VoutN,VoutE,VoutS,VoutW;
@@ -41,6 +41,7 @@ public class Tile extends Group {
 		Ion			= new Image("gfx/on.png");
 		Iinvalid	= new Image("gfx/invalid.png");
 		Ievent		= new Image("gfx/event.png");
+		Ixor		= new Image("gfx/xor.png");
 	}
 	
 	Tile(int x, int y) {
@@ -219,6 +220,10 @@ public class Tile extends Group {
 		}
 		if (v instanceof And) {
 				Vlogic.setImage(Tile.Iand);
+				Vlogic.setVisible(true);
+		}
+		if (v instanceof Xor) {
+				Vlogic.setImage(Tile.Ixor);
 				Vlogic.setVisible(true);
 		}
 	}	

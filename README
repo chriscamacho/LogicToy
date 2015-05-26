@@ -16,3 +16,17 @@ After editing or adding a tile, the circuit may be in an invalid state,
 resetting the state fires state change events on all grid inputs allowing
 the logic circuit to be reevaluated.
 
+
+adding a new logic function
+
+first extend the LogicGate class in the logic folder, a logic gate should
+only ever have one output. Inputs and outputs can be on any side 
+
+create a new graphic for the gate - look at the size of other gates
+take not that the graphic must fit with the rest of the tile, with
+a transparent border...
+add a new ImageView in the Tile class (this will later be moved to the 
+logic class and auto load the png based on class name...)
+
+Tile.setLogicVisual also needs editing (again this will automagically
+happen at a later date)
