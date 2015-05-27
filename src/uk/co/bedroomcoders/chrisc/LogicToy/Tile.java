@@ -15,12 +15,10 @@ public class Tile extends Group {
 	public boolean inStateN, inStateE, inStateS, inStateW;
 	public boolean outState; // all outputs are always the same!
 	
-	protected static Image Iinwire,Ioutwire,Iand,Iinout,Icross;
-	protected static Image Inot,Ior,Ion,Iinvalid,Ibg,Ievent,Ixor;
+	private static Image Iinwire,Ioutwire,Ion,Ibg,Ievent;
 	
 	private ImageView VinN, VinE, VinS, VinW;
 	private ImageView VoutN,VoutE,VoutS,VoutW;
-	private ImageView Vinvalid;
 	private ImageView Vbg;
 	public ImageView Vlogic,Vstate;
 	
@@ -33,15 +31,8 @@ public class Tile extends Group {
 		Ibg			= new Image("gfx/bg.png");
 		Iinwire		= new Image("gfx/inwire.png");
 		Ioutwire	= new Image("gfx/outwire.png");
-		Icross		= new Image("gfx/cross.png");
-		Iand		= new Image("gfx/and.png");
-		Iinout		= new Image("gfx/inout.png");
-		Inot		= new Image("gfx/not.png");
-		Ior			= new Image("gfx/or.png");
 		Ion			= new Image("gfx/on.png");
-		Iinvalid	= new Image("gfx/invalid.png");
 		Ievent		= new Image("gfx/event.png");
-		Ixor		= new Image("gfx/xor.png");
 	}
 	
 	Tile(int x, int y) {
@@ -98,18 +89,16 @@ public class Tile extends Group {
 		VoutW.setVisible(false);
 
 		
-		Vlogic = new ImageView(Iand);
+		Vlogic = new ImageView();
+		Wire w=new Wire();
+		setLogicVisual(w);
+		
 		getChildren().add(Vlogic);
-		Vlogic.setVisible(false);
 		
 		Vstate = new ImageView(Ion);
 		getChildren().add(Vstate);
 		Vstate.setVisible(false);
 		
-		Vinvalid = new ImageView(Iinvalid);
-		getChildren().add(Vinvalid);
-		Vinvalid.setVisible(false);
-
 		Vevent = new ImageView(Ievent);
 		getChildren().add(Vevent);
 		Vevent.setUserData(this);
@@ -148,7 +137,7 @@ public class Tile extends Group {
 		updateGraphics();
 	}
 	
-	public boolean getInput(DIR side) {
+	public boolean getIsInput(DIR side) {
 		if (side==DIR.NORTH)	return inN; 
 		if (side==DIR.EAST)		return inE; 
 		if (side==DIR.SOUTH)	return inS; 
@@ -156,7 +145,7 @@ public class Tile extends Group {
 		return false; 		
 	}
 	
-	public boolean getOutput(DIR side) {
+	public boolean getIsOutput(DIR side) {
 		if (side==DIR.NORTH)	return outN; 
 		if (side==DIR.EAST)		return outE; 
 		if (side==DIR.SOUTH)	return outS; 
@@ -166,19 +155,19 @@ public class Tile extends Group {
 	
 	public int countInputs() {
 		int c = 0;
-		if (getInput(DIR.NORTH)) c++;
-		if (getInput(DIR.EAST)) c++;
-		if (getInput(DIR.SOUTH)) c++;
-		if (getInput(DIR.WEST)) c++;
+		if (getIsInput(DIR.NORTH)) c++;
+		if (getIsInput(DIR.EAST)) c++;
+		if (getIsInput(DIR.SOUTH)) c++;
+		if (getIsInput(DIR.WEST)) c++;
 		return c;
 	}
 
 	public int countOutputs() {
 		int c = 0;
-		if (getOutput(DIR.NORTH)) c++;
-		if (getOutput(DIR.EAST)) c++;
-		if (getOutput(DIR.SOUTH)) c++;
-		if (getOutput(DIR.WEST)) c++;
+		if (getIsOutput(DIR.NORTH)) c++;
+		if (getIsOutput(DIR.EAST)) c++;
+		if (getIsOutput(DIR.SOUTH)) c++;
+		if (getIsOutput(DIR.WEST)) c++;
 		return c;
 	}
 	
@@ -187,44 +176,27 @@ public class Tile extends Group {
 		out =	"    <tile>\n";
 		out+=	"        <pos x=\""+((int)position.getX())+"\" y=\""+((int)position.getY())+"\" />\n";
 		out+=	"        <type logic=\""+logicType.getClass().getSimpleName()+"\" />\n";
-		out+=	"        <outputs north=\""+getOutput(DIR.NORTH)+"\" east=\""+getOutput(DIR.EAST)+"\" south=\""+getOutput(DIR.SOUTH)+"\" west=\""+getOutput(DIR.WEST)+"\" />\n";
-		out+=	"        <inputs north=\""+getInput(DIR.NORTH)+"\" east=\""+getInput(DIR.EAST)+"\" south=\""+getInput(DIR.SOUTH)+"\" west=\""+getInput(DIR.WEST)+"\" />\n";
+		out+=	"        <outputs north=\""+getIsOutput(DIR.NORTH)+"\" east=\""+getIsOutput(DIR.EAST)+
+					"\" south=\""+getIsOutput(DIR.SOUTH)+"\" west=\""+getIsOutput(DIR.WEST)+"\" />\n";
+		out+=	"        <inputs north=\""+getIsInput(DIR.NORTH)+"\" east=\""+getIsInput(DIR.EAST)+
+					"\" south=\""+getIsInput(DIR.SOUTH)+"\" west=\""+getIsInput(DIR.WEST)+"\" />\n";
 		out+=	"    </tile>\n";
 		return out;
 	}
 	
 	// TODO give each logic instance it own image instance
 	public void setLogicVisual(LogicGate v) {
-
+		Vlogic.setImage(v.getImage());
+		/*
 		//gateNames = { "Wire", "In", "Out", "Cross", "Not", "Or", "And" };
-		if (v instanceof Wire) Vlogic.setVisible(false);
-		if (v instanceof In) {
-				Vlogic.setImage(Tile.Iinout);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof Out) {
-				Vlogic.setImage(Tile.Iinout);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof Cross) {
-				Vlogic.setImage(Tile.Icross);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof Not) {
-				Vlogic.setImage(Tile.Inot);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof Or) {
-				Vlogic.setImage(Tile.Ior);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof And) {
-				Vlogic.setImage(Tile.Iand);
-				Vlogic.setVisible(true);
-		}
-		if (v instanceof Xor) {
-				Vlogic.setImage(Tile.Ixor);
-				Vlogic.setVisible(true);
-		}
+		if (v instanceof Wire) Vlogic.setImage(Tile.Iwire);
+		if (v instanceof In) Vlogic.setImage(Tile.Iin);
+		if (v instanceof Out) Vlogic.setImage(Tile.Iout);
+		if (v instanceof Cross) Vlogic.setImage(Tile.Icross);
+		if (v instanceof Not) Vlogic.setImage(Tile.Inot);
+		if (v instanceof Or) Vlogic.setImage(Tile.Ior);
+		if (v instanceof And) Vlogic.setImage(Tile.Iand);
+		if (v instanceof Xor) Vlogic.setImage(Tile.Ixor);
+		*/
 	}	
 }

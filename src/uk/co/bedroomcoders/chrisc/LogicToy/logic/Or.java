@@ -24,20 +24,20 @@ public class Or extends LogicGate {
 		boolean ss = tile.inStateS;
 		boolean ws = tile.inStateW;
 		
-		if (tile.getInput(DIR.NORTH)==false) ns = false;
-		if (tile.getInput(DIR.EAST )==false) es = false;
-		if (tile.getInput(DIR.SOUTH)==false) ss = false;
-		if (tile.getInput(DIR.WEST )==false) ws = false;
+		if (tile.getIsInput(DIR.NORTH)==false) ns = false;
+		if (tile.getIsInput(DIR.EAST )==false) es = false;
+		if (tile.getIsInput(DIR.SOUTH)==false) ss = false;
+		if (tile.getIsInput(DIR.WEST )==false) ws = false;
 		
 		// set the output state and create a new stateEvent
 		tile.outState = ns | es | ss | ws;
 
 		int x=(int)tile.position.getX();
 		int y=(int)tile.position.getY();
-		if (se.Target.getOutput(DIR.NORTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y-1],DIR.NORTH,tile.outState);
-		if (se.Target.getOutput(DIR.EAST )) new stateEvent(Main.currentTick+10,Main.grid[x+1][y],DIR.EAST ,tile.outState);
-		if (se.Target.getOutput(DIR.SOUTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y+1],DIR.SOUTH,tile.outState);
-		if (se.Target.getOutput(DIR.WEST )) new stateEvent(Main.currentTick+10,Main.grid[x-1][y],DIR.WEST ,tile.outState);
+		if (se.Target.getIsOutput(DIR.NORTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y-1],DIR.NORTH,tile.outState);
+		if (se.Target.getIsOutput(DIR.EAST )) new stateEvent(Main.currentTick+10,Main.grid[x+1][y],DIR.EAST ,tile.outState);
+		if (se.Target.getIsOutput(DIR.SOUTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y+1],DIR.SOUTH,tile.outState);
+		if (se.Target.getIsOutput(DIR.WEST )) new stateEvent(Main.currentTick+10,Main.grid[x-1][y],DIR.WEST ,tile.outState);
 		
 	}
 

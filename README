@@ -3,30 +3,47 @@ Logic Toy
 
 A grid based logic toy
 
-Initially made as a prototype for a small aspect of a game design.
+Initially made as a prototype for a small aspect of a games design.
 
 Each cell of a grid can have its own logic function, each side of a tile
 (North, East, South and West) can be blank or be either an input or output
 
 Left clicking allows editing a tile.
 
-Right clicking toggles the state of and input tile.
+Right clicking toggles the state of an input tile.
 
 After editing or adding a tile, the circuit may be in an invalid state,
 resetting the state fires state change events on all grid inputs allowing
-the logic circuit to be reevaluated.
+the logic circuit to be reevaluated. (the same happens when you load a grid)
 
 
 adding a new logic function
 
-first extend the LogicGate class in the logic folder, a logic gate should
-only ever have one output. Inputs and outputs can be on any side 
+first extend the LogicGate class in the logic folder, a logic gate must have
+Inputs and Outputs that can be on any side.
+
+
+abstract public String invalid(Tile tile);
+
+MUST be overridden it is called when a tile is edited, it MUST return 
+a MEANINGFUL error message if the setup of the tile is invalid.
+Usually its just a check for the right number of inputs and outputs
+
+
+abstract public void updateState(stateEvent se);
+
+MUST be overridden to provide the actual logical functionality of the logic gate
+it is called when a tile is send a state change event from a connected tile
+When outputting state events you should use a delay like the other logic gates
+only "wires" should have no "tick" delay 
+
 
 create a new graphic for the gate - look at the size of other gates
-take not that the graphic must fit with the rest of the tile, with
-a transparent border...
-add a new ImageView in the Tile class (this will later be moved to the 
-logic class and auto load the png based on class name...)
+take note that the graphic MUST fit with the rest of the tile, with
+a transparent border so the inputs and outputs can be seen...
 
-Tile.setLogicVisual also needs editing (again this will automagically
-happen at a later date)
+When the logicGate is loaded the graphics will be automagically loaded
+and used, if your gate is called logic/Foo.java then you need to call your
+image gfx/Foo.png
+
+

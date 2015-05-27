@@ -136,10 +136,10 @@ public class Main extends Application {
 				int y = (int)t.position.getY();
 				t.outState=!t.outState;
 				t.Vstate.setVisible(t.outState);
-				if (t.getOutput(DIR.NORTH)) new stateEvent(currentTick+10,grid[x][y-1],DIR.NORTH,t.outState);
-				if (t.getOutput(DIR.EAST )) new stateEvent(currentTick+10,grid[x+1][y],DIR.EAST ,t.outState);
-				if (t.getOutput(DIR.SOUTH)) new stateEvent(currentTick+10,grid[x][y+1],DIR.SOUTH,t.outState);
-				if (t.getOutput(DIR.WEST )) new stateEvent(currentTick+10,grid[x-1][y],DIR.WEST ,t.outState);	
+				if (t.getIsOutput(DIR.NORTH)) new stateEvent(currentTick+10,grid[x][y-1],DIR.NORTH,t.outState);
+				if (t.getIsOutput(DIR.EAST )) new stateEvent(currentTick+10,grid[x+1][y],DIR.EAST ,t.outState);
+				if (t.getIsOutput(DIR.SOUTH)) new stateEvent(currentTick+10,grid[x][y+1],DIR.SOUTH,t.outState);
+				if (t.getIsOutput(DIR.WEST )) new stateEvent(currentTick+10,grid[x-1][y],DIR.WEST ,t.outState);	
 				doTick();			
 			}
 		}
@@ -162,10 +162,10 @@ public class Main extends Application {
 				Tile tile = grid[x][y];
 
 				if (tile.logicType instanceof In) { // input
-					if (tile.getOutput(DIR.NORTH)) new stateEvent(currentTick,grid[x][y-1],DIR.NORTH,tile.outState);
-					if (tile.getOutput(DIR.EAST )) new stateEvent(currentTick,grid[x+1][y],DIR.EAST ,tile.outState);
-					if (tile.getOutput(DIR.SOUTH)) new stateEvent(currentTick,grid[x][y+1],DIR.SOUTH,tile.outState);
-					if (tile.getOutput(DIR.WEST )) new stateEvent(currentTick,grid[x-1][y],DIR.WEST ,tile.outState);
+					if (tile.getIsOutput(DIR.NORTH)) new stateEvent(currentTick,grid[x][y-1],DIR.NORTH,tile.outState);
+					if (tile.getIsOutput(DIR.EAST )) new stateEvent(currentTick,grid[x+1][y],DIR.EAST ,tile.outState);
+					if (tile.getIsOutput(DIR.SOUTH)) new stateEvent(currentTick,grid[x][y+1],DIR.SOUTH,tile.outState);
+					if (tile.getIsOutput(DIR.WEST )) new stateEvent(currentTick,grid[x-1][y],DIR.WEST ,tile.outState);
 				} 
 			}
 		}
@@ -212,14 +212,14 @@ public class Main extends Application {
 		for (int y=0;y<gridHeight;y++) {
 			for (int x=0;x<gridWidth;x++) {
 				if (grid[x][y].logicType instanceof Wire) { // only output wire if it has out/inputs
-					if (grid[x][y].getInput(DIR.NORTH) ||
-						grid[x][y].getInput(DIR.EAST) ||
-						grid[x][y].getInput(DIR.SOUTH) ||
-						grid[x][y].getInput(DIR.WEST) ||
-						grid[x][y].getOutput(DIR.NORTH) ||
-						grid[x][y].getOutput(DIR.EAST) ||
-						grid[x][y].getOutput(DIR.SOUTH) ||
-						grid[x][y].getOutput(DIR.WEST) 
+					if (grid[x][y].getIsInput(DIR.NORTH) ||
+						grid[x][y].getIsInput(DIR.EAST) ||
+						grid[x][y].getIsInput(DIR.SOUTH) ||
+						grid[x][y].getIsInput(DIR.WEST) ||
+						grid[x][y].getIsOutput(DIR.NORTH) ||
+						grid[x][y].getIsOutput(DIR.EAST) ||
+						grid[x][y].getIsOutput(DIR.SOUTH) ||
+						grid[x][y].getIsOutput(DIR.WEST) 
 						) {
 							try {
 								bw.write(grid[x][y].toXml()+"\n");
@@ -267,7 +267,7 @@ public class Main extends Application {
 			while (it.hasNext()) {
 				stateEvent se = it.next();
 				if (se.Tick<=currentTick && se.processed==false) {
-					if (se.Target.getInput(se.Direction.reverse())==true) {
+					if (se.Target.getIsInput(se.Direction.reverse())==true) {
 							done=false;
 							se.processed=true;
 							updateList.add(se); // will probably add to event list so need to do later to avoid comodification

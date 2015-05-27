@@ -21,10 +21,10 @@ public class Xor extends LogicGate {
 
 
 		boolean[] ins=new boolean[4];
-		ins[0]=tile.getInput(DIR.NORTH);
-		ins[1]=tile.getInput(DIR.EAST);
-		ins[2]=tile.getInput(DIR.SOUTH);
-		ins[3]=tile.getInput(DIR.WEST);
+		ins[0]=tile.getIsInput(DIR.NORTH);
+		ins[1]=tile.getIsInput(DIR.EAST);
+		ins[2]=tile.getIsInput(DIR.SOUTH);
+		ins[3]=tile.getIsInput(DIR.WEST);
 		boolean[] val=new boolean[4];
 		val[0]=tile.inStateN;val[1]=tile.inStateE;val[2]=tile.inStateS;val[3]=tile.inStateW;  
 		
@@ -49,10 +49,10 @@ public class Xor extends LogicGate {
 
 		int x=(int)tile.position.getX();
 		int y=(int)tile.position.getY();
-		if (se.Target.getOutput(DIR.NORTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y-1],DIR.NORTH,tile.outState);
-		if (se.Target.getOutput(DIR.EAST )) new stateEvent(Main.currentTick+10,Main.grid[x+1][y],DIR.EAST ,tile.outState);
-		if (se.Target.getOutput(DIR.SOUTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y+1],DIR.SOUTH,tile.outState);
-		if (se.Target.getOutput(DIR.WEST )) new stateEvent(Main.currentTick+10,Main.grid[x-1][y],DIR.WEST ,tile.outState);
+		if (se.Target.getIsOutput(DIR.NORTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y-1],DIR.NORTH,tile.outState);
+		if (se.Target.getIsOutput(DIR.EAST )) new stateEvent(Main.currentTick+10,Main.grid[x+1][y],DIR.EAST ,tile.outState);
+		if (se.Target.getIsOutput(DIR.SOUTH)) new stateEvent(Main.currentTick+10,Main.grid[x][y+1],DIR.SOUTH,tile.outState);
+		if (se.Target.getIsOutput(DIR.WEST )) new stateEvent(Main.currentTick+10,Main.grid[x-1][y],DIR.WEST ,tile.outState);
 		
 	}
 

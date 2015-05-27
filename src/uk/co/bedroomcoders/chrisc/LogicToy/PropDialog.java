@@ -93,15 +93,15 @@ public class PropDialog extends Stage {
 	public void showDialog() {
 		show();
 		
-		CBinN.setSelected(tile.getInput(DIR.NORTH));
-		CBinE.setSelected(tile.getInput(DIR.EAST));
-		CBinS.setSelected(tile.getInput(DIR.SOUTH));
-		CBinW.setSelected(tile.getInput(DIR.WEST));
+		CBinN.setSelected(tile.getIsInput(DIR.NORTH));
+		CBinE.setSelected(tile.getIsInput(DIR.EAST));
+		CBinS.setSelected(tile.getIsInput(DIR.SOUTH));
+		CBinW.setSelected(tile.getIsInput(DIR.WEST));
 		
-		CBoutN.setSelected(tile.getOutput(DIR.NORTH));
-		CBoutE.setSelected(tile.getOutput(DIR.EAST));
-		CBoutS.setSelected(tile.getOutput(DIR.SOUTH));
-		CBoutW.setSelected(tile.getOutput(DIR.WEST));
+		CBoutN.setSelected(tile.getIsOutput(DIR.NORTH));
+		CBoutE.setSelected(tile.getIsOutput(DIR.EAST));
+		CBoutS.setSelected(tile.getIsOutput(DIR.SOUTH));
+		CBoutW.setSelected(tile.getIsOutput(DIR.WEST));
 		
 
 		logicChoice.getSelectionModel().clearAndSelect(tile.logicType.getIndex());

@@ -1,6 +1,7 @@
 package uk.co.bedroomcoders.chrisc.LogicToy.logic;
 import uk.co.bedroomcoders.chrisc.LogicToy.*;
 
+import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -8,16 +9,23 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 public abstract class LogicGate {
+	
+	public static String packageName;
+	public static String[] gateNames;
 
+	// child classes can't have abstract static classes...
 	private static HashMap<Class<?>,Integer> indexes= new HashMap<Class<?>,Integer>();
+	private static HashMap<Class<?>,Image> images= new HashMap<Class<?>,Image>();
 
 	// index is only for runtime, class type to index used for ChoiceBox
 	public int getIndex() {
 		return indexes.get(this.getClass());
 	}
 	
-	public static String packageName;
-	public static String[] gateNames;
+	// gets the image associated with the child class
+	public Image getImage() {
+		return images.get(this.getClass());
+	}
 	
 	// from a String "And" "Not" etc create a LogicGate instance
 	public static LogicGate createInstance(String name) {
@@ -55,8 +63,9 @@ public abstract class LogicGate {
 		
 		for (int i=0;i<g.size();i++) {
 			LogicGate lg = createInstance(gateNames[i]);
-			//lg.setIndex(i);
 			indexes.put(lg.getClass(),new Integer(i));
+			Image img = new Image("gfx/"+gateNames[i]+".png");
+			images.put(lg.getClass(),img);
 		}
 	}
 
