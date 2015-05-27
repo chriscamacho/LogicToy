@@ -24,9 +24,9 @@ public class PropDialog extends Stage {
 	CheckBox			CBoutN,CBoutE,CBoutS,CBoutW;
 	ChoiceBox<String>	logicChoice;
 	Label				errorLabel;
+	Button 				ok,clear;
+
 	Tile				tile;
-	
-	Button ok;
 	
 	PropDialog(Stage parent, Tile editTile) {
 		super(StageStyle.TRANSPARENT);
@@ -74,12 +74,17 @@ public class PropDialog extends Stage {
 		
 		ok = new Button("OK");
 		ok.setOnAction((e)->onAction(e));
+		ok.setPadding(i);
 		hboxBottom.getChildren().add(ok);
+				
+		clear = new Button("Clear");
+		clear.setOnAction((e)->onAction(e));
+		clear.setPadding(i);
+		hboxBottom.getChildren().add(clear);
+		
 		errorLabel = new Label();
 		errorLabel.setTextFill(Color.web("#ff0000"));
 		hboxBottom.getChildren().add(errorLabel);
-		
-
 	}
 
 	private CheckBox makeCB(String l) {		
@@ -160,8 +165,22 @@ public class PropDialog extends Stage {
 			
 			errorLabel.setText(invalid);
 			
-			if (invalid==null) hide();
+			if (invalid==null && ae.getSource()!=clear) hide(); // if valid and not from clear button
 			return;
+		}
+		
+		if (ae.getTarget()==clear) {
+			CBinN.setSelected(false);
+			CBinE.setSelected(false);
+			CBinS.setSelected(false);
+			CBinW.setSelected(false);
+			CBoutN.setSelected(false);
+			CBoutE.setSelected(false);
+			CBoutS.setSelected(false);
+			CBoutW.setSelected(false);
+			logicChoice.getSelectionModel().clearAndSelect(0);
+			ActionEvent nae= new ActionEvent(clear, ok);
+			onAction(nae);
 		}
 		
 	}

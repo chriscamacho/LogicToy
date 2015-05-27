@@ -61,6 +61,7 @@ public class Main extends Application {
 		root.setPrefSize(gridWidth*34+4,gridHeight*34+4);
 		scroller.setContent(root);
 
+
 		final Menu fileMenu = new Menu("File");
 		final Menu simMenu = new Menu("Sim");
 		
@@ -96,10 +97,17 @@ public class Main extends Application {
 		
 		stage.setTitle("Logic Toy");
         stage.setScene(scene);
-        stage.show();
+
+        stage.show();			
+        stage.hide();
 		stage.setWidth(640);
 		stage.setHeight(480);
-     
+		stage.setMaxWidth(gridWidth*34+4); // 1.7976931348623157E308 really!
+		//System.out.println("max/min size "+stage.getMaxWidth()+","+stage.getMinWidth());
+        stage.show();	// work around for odd sizing interaction between scroller and stage
+		
+		
+		
         scene.setOnKeyReleased(e->keyReleased(e));
 
 	}
@@ -183,7 +191,10 @@ public class Main extends Application {
 		xmlLoader.load(selectedFile.getAbsolutePath(),grid);
 		
 		resetState();
-
+		mainStage.setMaxWidth(gridWidth*34+4); // TODO find out what causes this bug - see end of start method
+		mainStage.setMaxHeight(gridHeight*34+4); // using the menu ???
+		mainStage.hide();
+		mainStage.show();
 	}
 	
 	public void saveGrid() {
