@@ -7,7 +7,7 @@
     <path id="classpath">
         <pathelement location="bin" />
         <pathelement location="." />
-        <fileset dir="libs" includes="**/*.jar"/>
+       <!-- <fileset dir="libs" includes="**/*.jar"/> -->
     </path>
     
     <target
